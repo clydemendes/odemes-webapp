@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odemes – Everyday Money Tracker</title>
+  <meta name="description" content="The fastest way to track your daily spending — no setup, no friction, just tap and go." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --green: #1C652F;
+      --red:   #FF4248;
+      --black: #0A0A0A;
+      --ink:   #1a1a1a;
+      --muted: #6B7280;
+      --faint: #9CA3AF;
+      --bg:    #ffffff;
+      --card:  #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--black);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── Page shell ─────────────────────────────────── */
+    .page { position: relative; z-index: 1; }
+
+    /* ─── Fade-in on scroll ──────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.d1 { transition-delay: .08s; }
+    .reveal.d2 { transition-delay: .16s; }
+    .reveal.d3 { transition-delay: .24s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ════════════════════════════════════════════════════
+       NAV
+    ════════════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 52px;
+      background: var(--card);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -.3px;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      object-fit: contain;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, opacity .2s;
+      white-space: nowrap;
+    }
+    .nav-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .nav-btn:hover {
+      background: #155a27;
+      opacity: .95;
+    }
+
+    /* ════════════════════════════════════════════════════
+       HERO
+    ════════════════════════════════════════════════════ */
+    .hero {
+      min-height: 72vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 88px 20px 48px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: rgba(28,101,47,.08);
+      border: 1px solid rgba(28,101,47,.18);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: .2px;
+      margin-bottom: 16px;
+    }
+    .hero-chip-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -1.2px;
+      color: var(--black);
+      max-width: 560px;
+      margin-bottom: 12px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.8vw, 16px);
+      font-weight: 400;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    /* App Store badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: var(--black);
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .badge:hover { opacity: .88; }
+    .badge svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .badge-text { display: flex; flex-direction: column; align-items: flex-start; }
+    .badge-small { font-size: 9px; font-weight: 400; opacity: .8; letter-spacing: .15px; }
+    .badge-large { font-size: 14px; font-weight: 600; letter-spacing: -.2px; line-height: 1.2; }
+
+    /* ════════════════════════════════════════════════════
+       FEATURES
+    ════════════════════════════════════════════════════ */
+    .features-section {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 48px 20px;
+      border-top: 1px solid rgba(0,0,0,.05);
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 600;
+      letter-spacing: -.8px;
+      line-height: 1.2;
+      color: var(--black);
+      max-width: 480px;
+      margin-bottom: 28px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .feat-card {
+      padding: 22px 18px;
+      border-radius: 12px;
+      background: var(--bg);
+      border: 1px solid rgba(0,0,0,.06);
+      transition: border-color .2s;
+    }
+    .feat-card:hover { border-color: rgba(28,101,47,.18); }
+
+    .feat-emoji {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .feat-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -.2px;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .feat-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ════════════════════════════════════════════════════
+       HOW IT WORKS
+    ════════════════════════════════════════════════════ */
+    .how-section {
+      padding: 48px 20px;
+      border-top: 1px solid rgba(0,0,0,.05);
+    }
+    .how-inner {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .step {
+      flex: 1;
+      min-width: 160px;
+      max-width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step-connector {
+      flex: 0 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 22px;
+    }
+    .connector-line {
+      height: 1px;
+      width: 100%;
+      background: var(--green);
+      opacity: .3;
+    }
+
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .step-title {
+      font-size: 14px; font-weight: 600;
+      color: var(--black); letter-spacing: -.15px;
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      font-size: 12px; font-weight: 400;
+      color: var(--muted); line-height: 1.45;
+      max-width: 180px;
+    }
+
+    /* ════════════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════════════ */
+    footer {
+      padding: 36px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      border-top: 1px solid rgba(0,0,0,.06);
+    }
+
+    .footer-logo {
+      font-size: 17px; font-weight: 600;
+      letter-spacing: -.3px;
+      color: var(--black);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer-logo img {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      object-fit: contain;
+    }
+
+    .footer-tagline {
+      font-size: 12px; font-weight: 400; color: var(--faint);
+    }
+
+    .footer-badge { margin: 2px 0; }
+
+    .footer-links {
+      display: flex; gap: 20px; align-items: center;
+    }
+    .footer-links a {
+      font-size: 12px; color: var(--faint);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+
+    .footer-copy {
+      font-size: 11px; color: var(--faint);
+    }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav { padding: 0 16px; height: 48px; }
+
+      .hero { padding: 76px 16px 40px; min-height: 65vh; }
+
+      .features-section,
+      .how-section { padding: 36px 16px; }
+
+      .steps {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+      }
+      .step-connector { display: none; }
+
+      .section-title { margin-bottom: 24px; }
+    }
+
+    @media (max-width: 400px) {
+      .nav-logo img { display: none; }
+      .nav-btn { font-size: 12px; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══ NAV ══════════════════════════════════════════ -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="sitelogo.png" alt="Odemes logo" />
+      odemes
+    </a>
+    <a href="#" class="nav-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      Download on App Store
+    </a>
+  </nav>
+
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section class="hero">
+
+    <div class="hero-chip reveal">
+      <div class="hero-chip-dot"></div>
+      Available on iOS
+    </div>
+
+    <h1 class="reveal d1">
+      Every expense.<br><em>Under 5 seconds.</em>
+    </h1>
+
+    <p class="hero-sub reveal d2">
+      The fastest way to track your daily spending —
+      no setup, no friction, just tap and go.
+    </p>
+
+    <a href="#" class="badge reveal d3">
+      <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      <div class="badge-text">
+        <span class="badge-small">Download on the</span>
+        <span class="badge-large">App Store</span>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- ══ FEATURES ══════════════════════════════════════ -->
+  <section class="features-section" id="features">
+    <div class="section-eyebrow reveal">Features</div>
+    <h2 class="section-title reveal d1">Built for speed.<br>Designed for clarity.</h2>
+
+    <div class="cards-grid">
+      <div class="feat-card reveal">
+        <span class="feat-emoji">⚡</span>
+        <h3 class="feat-title">Lightning Fast Entry</h3>
+        <p class="feat-desc">Log a transaction before your receipt prints.</p>
+      </div>
+      <div class="feat-card reveal d1">
+        <span class="feat-emoji">📊</span>
+        <h3 class="feat-title">Instant Overview</h3>
+        <p class="feat-desc">See today, this week, this month at a glance.</p>
+      </div>
+      <div class="feat-card reveal d2">
+        <span class="feat-emoji">🔒</span>
+        <h3 class="feat-title">Private by Default</h3>
+        <p class="feat-desc">Everything stays on your device, no account needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ═══════════════════════════════════ -->
+  <div class="how-section" id="how">
+    <div class="how-inner">
+      <div class="section-eyebrow reveal">How It Works</div>
+      <h2 class="section-title reveal d1">Three taps.<br>You're done.</h2>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div class="step-title">Open Odemes</div>
+          <p class="step-desc">No login. No loading screen. Just open and go.</p>
+        </div>
+        <div class="step-connector reveal d1">
+          <div class="connector-line"></div>
+        </div>
+        <div class="step reveal d1">
+          <div class="step-num">2</div>
+          <div class="step-title">Enter Amount &amp; Category</div>
+          <p class="step-desc">Type the amount, pick a category. Two taps max.</p>
+        </div>
+        <div class="step-connector reveal d2">
+          <div class="connector-line"></div>
+        </div>
+        <div class="step reveal d2">
+          <div class="step-num">3</div>
+          <div class="step-title">Done — Under 5 Seconds</div>
+          <p class="step-desc">Your expense is logged. Move on with your day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">
+      <img src="sitelogo.png" alt="Odemes logo" />
+      odemes
+    </div>
+    <p class="footer-tagline">Made for people who just want to track their money.</p>
+    <a href="#" class="badge footer-badge">
+      <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      <div class="badge-text">
+        <span class="badge-small">Download on the</span>
+        <span class="badge-large">App Store</span>
+      </div>
+    </a>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <p class="footer-copy">© 2026 Odemes. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+    });
+  })();
+</script>
+
+</body>
+</html>

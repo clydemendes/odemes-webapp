@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Build / cache
+.next/
+node_modules/
+
+# Optional: keep if you want to ignore IDE/editor folders
+# .idea/
+# .vscode/

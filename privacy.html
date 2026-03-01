@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Odemes</title>
+  <meta name="description" content="Odemes Privacy Policy – how your data is stored and protected." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --green: #1C652F;
+      --red:   #FF4248;
+      --black: #0A0A0A;
+      --muted: #6B7280;
+      --faint: #9CA3AF;
+      --bg:    #ffffff;
+      --card:  #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--black);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── Page ───────────────────────────────────────── */
+    .page { position: relative; z-index: 1; }
+
+    /* ─── Nav ────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 52px;
+      background: var(--card);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .nav-logo {
+      font-size: 17px; font-weight: 600; letter-spacing: -.3px;
+      color: var(--black);
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .nav-logo img { width: 22px; height: 22px; border-radius: 5px; object-fit: contain; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid rgba(0,0,0,.1);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 500;
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .nav-back:hover {
+      background: rgba(0,0,0,.04);
+      border-color: rgba(0,0,0,.15);
+    }
+    .nav-back svg { width: 12px; height: 12px; }
+
+    /* ─── Hero banner ────────────────────────────────── */
+    .banner {
+      padding: 88px 20px 40px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .banner-eyebrow {
+      display: inline-block;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .banner h1 {
+      font-size: clamp(26px, 4.5vw, 36px);
+      font-weight: 600;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .banner-updated {
+      font-size: 12px; font-weight: 400; color: var(--faint);
+    }
+
+    /* ─── Divider ────────────────────────────────────── */
+    .divider {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 1px;
+      background: rgba(0,0,0,.06);
+    }
+
+    /* ─── Content ────────────────────────────────────── */
+    .content {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 36px 20px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ─── Section card ───────────────────────────────── */
+    .policy-card {
+      padding: 22px 20px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    .policy-num {
+      display: inline-block;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+
+    .policy-card h2 {
+      font-size: 17px; font-weight: 600;
+      letter-spacing: -.3px;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+
+    .policy-card p {
+      font-size: 14px; font-weight: 400;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .policy-card p:last-child { margin-bottom: 0; }
+
+    .policy-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .policy-card ul li {
+      font-size: 14px; font-weight: 400;
+      color: #444;
+      line-height: 1.55;
+      padding-left: 16px;
+      position: relative;
+    }
+    .policy-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .policy-card ul li strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    /* highlight box */
+    .highlight-box {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(28,101,47,.06);
+      border: 1px solid rgba(28,101,47,.12);
+      font-size: 13px; font-weight: 400;
+      color: #374151;
+      line-height: 1.55;
+    }
+    .highlight-box strong { font-weight: 600; color: var(--black); }
+
+    /* contact links */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .contact-links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 500;
+      color: var(--black);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-links a:hover { color: var(--green); }
+    .contact-links a svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    footer {
+      padding: 28px 20px 24px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .footer-logo {
+      font-size: 17px; font-weight: 600; letter-spacing: -.3px;
+      color: var(--black);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer-logo img { width: 20px; height: 20px; border-radius: 5px; object-fit: contain; }
+    .footer-copy { font-size: 11px; color: var(--faint); }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; height: 48px; }
+      .banner { padding: 76px 16px 32px; }
+      .content { padding: 28px 16px 48px; gap: 20px; }
+      .policy-card { padding: 18px 16px; }
+      .divider { padding: 0 16px; }
+      footer { padding: 24px 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="sitelogo.png" alt="Odemes logo" />
+      odemes
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Back
+    </a>
+  </nav>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <span class="banner-eyebrow">Legal</span>
+    <h1>Privacy Policy</h1>
+    <p class="banner-updated">Last updated: February 2026</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 1 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 01</span>
+      <h2>Information We Collect</h2>
+      <p><strong style="font-weight:600;color:#0A0A0A">Data you create in the app</strong><br>
+      Odemes stores the data you enter: transactions (income and expenses), categories, and any other information you add. This data is stored on your device and, if you use iCloud, in your personal iCloud account.</p>
+      <div class="highlight-box">
+        <strong>We do not collect</strong> — We do not collect, sell, or use your personal or financial data for advertising or analytics. We do not require an account with us to use the app.
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 02</span>
+      <h2>How Your Data Is Stored</h2>
+      <ul>
+        <li><strong>On your device:</strong> Your data is stored locally on your iPhone or iPad.</li>
+        <li><strong>iCloud:</strong> If you enable iCloud Sync, your data is synced using your own iCloud account. This data is controlled by you and Apple's iCloud terms and privacy policy. We do not have access to your iCloud data.</li>
+      </ul>
+    </div>
+
+    <!-- 3 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 03</span>
+      <h2>Data We Do Not Access</h2>
+      <p>We do not have servers that store your transactions or personal information. We do not access, read, or transmit your financial data except as necessary to provide app features (e.g., iCloud sync through Apple's services).</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 04</span>
+      <h2>Notifications</h2>
+      <p>If you enable notifications, they are sent by your device based on settings you choose in the app. We do not send push notifications from our own servers or use them to track you.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 05</span>
+      <h2>Third Parties</h2>
+      <ul>
+        <li><strong>Apple:</strong> The app uses Apple services (e.g., iCloud). Use of those services is subject to Apple's Privacy Policy and terms.</li>
+        <li><strong>No other sharing:</strong> We do not share your data with third parties for marketing or advertising.</li>
+      </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 06</span>
+      <h2>Your Rights</h2>
+      <p>You can:</p>
+      <ul>
+        <li>View, edit, and delete your data at any time within the app.</li>
+        <li>Export your data (e.g., via the Export feature in Settings).</li>
+        <li>Disable iCloud Sync or delete the app; your local data is removed with the app (subject to your device and iCloud settings).</li>
+      </ul>
+    </div>
+
+    <!-- 7 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 07</span>
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. The "Last updated" date at the top will reflect the latest version. Continued use of the app after changes means you accept the updated policy.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="policy-card">
+      <span class="policy-num">Section 08</span>
+      <h2>Contact</h2>
+      <p>For questions about this Privacy Policy or your data:</p>
+      <div class="contact-links">
+        <a href="mailto:info@odemes.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          info@odemes.com
+        </a>
+        <a href="https://odemes.com" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          odemes.com
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /.content -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="sitelogo.png" alt="Odemes logo" />
+      odemes
+    </div>
+    <p class="footer-copy">© 2026 Odemes. All rights reserved.</p>
+  </footer>
+
+</div><!-- /.page -->
+
+</body>
+</html>
